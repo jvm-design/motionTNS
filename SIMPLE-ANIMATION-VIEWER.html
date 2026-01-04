@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Viewer - SIMPLE & FAST</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            min-height: 80vh;
+        }
+        .sidebar {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+        .search {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .category {
+            margin-bottom: 15px;
+        }
+        .category-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #667eea;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .category-title:hover {
+            background: #333;
+        }
+        .animation-list {
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+        .animation-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            border-left: 3px solid transparent;
+        }
+        .animation-item:hover {
+            background: #333;
+            border-left-color: #667eea;
+        }
+        .animation-item.active {
+            background: #667eea;
+            color: #fff;
+            font-weight: 500;
+        }
+        .preview-area {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .preview-header {
+            text-align: center;
+        }
+        .preview-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .preview-header .key {
+            font-size: 14px;
+            color: #888;
+            font-family: 'Courier New', monospace;
+        }
+        .stage {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .demo-box {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn {
+            background: #667eea;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #333;
+        }
+        .btn-secondary:hover {
+            background: #444;
+        }
+        .properties {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .properties h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        .prop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .prop {
+            background: #2a2a2a;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .prop-name {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        .prop-value {
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+        }
+        .json-output {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .json-output pre {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Animation Viewer - QUICK & SIMPLE</h1>
+        <p class="subtitle">Visualize and export your animations instantly</p>
+
+        <div class="grid">
+            <div class="sidebar">
+                <input type="text" class="search" id="search" placeholder="🔍 Search animations..." />
+                <div id="animationList"></div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <h2 id="animationTitle">Select an animation</h2>
+                    <div class="key" id="animationKey"></div>
+                </div>
+
+                <div class="stage" id="stage">
+                    <div class="demo-box" id="demoBox"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="replay()">▶️ Replay</button>
+                    <button class="btn btn-secondary" onclick="copyJSON()">📋 Copy JSON</button>
+                    <button class="btn btn-secondary" onclick="downloadJSON()">💾 Download JSON</button>
+                </div>
+
+                <div class="properties">
+                    <h3>Animation Properties</h3>
+                    <div class="prop-grid" id="propGrid"></div>
+                </div>
+
+                <div id="jsonContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let animations = {};
+        let currentAnimation = null;
+        let currentKey = null;
+
+        // Load animation library
+        fetch('animation-library.json')
+            .then(res => res.json())
+            .then(data => {
+                animations = data;
+                renderAnimationList();
+            })
+            .catch(err => {
+                console.error('Error loading animations:', err);
+                document.getElementById('animationList').innerHTML = 
+                    '<p style="color: #ff4444;">Error loading animation-library.json. Make sure the file exists!</p>';
+            });
+
+        function renderAnimationList(filter = '') {
+            const list = document.getElementById('animationList');
+            const categories = {};
+
+            // Group by category
+            Object.entries(animations).forEach(([key, anim]) => {
+                const category = key.split('.')[0];
+                if (!categories[category]) categories[category] = [];
+                categories[category].push({ key, anim });
+            });
+
+            // Filter if needed
+            const filterLower = filter.toLowerCase();
+
+            let html = '';
+            Object.entries(categories).forEach(([category, items]) => {
+                const filteredItems = items.filter(item => 
+                    !filter || item.key.toLowerCase().includes(filterLower)
+                );
+
+                if (filteredItems.length === 0) return;
+
+                html += `
+                    <div class="category">
+                        <div class="category-title">${category} (${filteredItems.length})</div>
+                        <div class="animation-list">
+                            ${filteredItems.map(item => `
+                                <div class="animation-item" onclick="selectAnimation('${item.key}')">
+                                    ${item.key.split('.').slice(1).join('.')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function selectAnimation(key) {
+            currentKey = key;
+            currentAnimation = animations[key];
+
+            // Update UI
+            document.querySelectorAll('.animation-item').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.getElementById('animationTitle').textContent = key;
+            document.getElementById('animationKey').textContent = key;
+
+            // Show properties
+            showProperties();
+
+            // Animate!
+            animateBox();
+        }
+
+        function showProperties() {
+            const grid = document.getElementById('propGrid');
+            const props = [
+                { name: 'Duration', value: `${currentAnimation.duration || 'N/A'}ms` },
+                { name: 'Easing', value: currentAnimation.easing || 'N/A' },
+                { name: 'Delay', value: `${currentAnimation.delay || 0}ms` },
+                { name: 'Type', value: currentAnimation.type || 'tween' },
+                { name: 'Opacity', value: JSON.stringify(currentAnimation.opacity || 'N/A') },
+                { name: 'Scale', value: JSON.stringify(currentAnimation.scale || 'N/A') },
+                { name: 'X', value: JSON.stringify(currentAnimation.x || 'N/A') },
+                { name: 'Y', value: JSON.stringify(currentAnimation.y || 'N/A') }
+            ];
+
+            grid.innerHTML = props.map(prop => `
+                <div class="prop">
+                    <div class="prop-name">${prop.name}</div>
+                    <div class="prop-value">${prop.value}</div>
+                </div>
+            `).join('');
+        }
+
+        function animateBox() {
+            const box = document.getElementById('demoBox');
+            
+            // Reset
+            box.style.animation = 'none';
+            box.offsetHeight; // Trigger reflow
+
+            // Build animation
+            const duration = currentAnimation.duration || 300;
+            const delay = currentAnimation.delay || 0;
+            const easing = currentAnimation.easing || 'ease-out';
+
+            // Create keyframes
+            let keyframes = '@keyframes customAnim {';
+            
+            if (currentAnimation.opacity) {
+                const opacities = Array.isArray(currentAnimation.opacity) 
+                    ? currentAnimation.opacity 
+                    : [1, currentAnimation.opacity];
+                keyframes += `from { opacity: ${opacities[0]}; } to { opacity: ${opacities[1]}; }`;
+            }
+
+            if (currentAnimation.scale) {
+                const scales = Array.isArray(currentAnimation.scale) 
+                    ? currentAnimation.scale 
+                    : [1, currentAnimation.scale];
+                keyframes += `from { transform: scale(${scales[0]}); } to { transform: scale(${scales[1]}); }`;
+            }
+
+            if (currentAnimation.x || currentAnimation.y) {
+                const x = currentAnimation.x || 0;
+                const y = currentAnimation.y || 0;
+                const xVal = Array.isArray(x) ? x[1] : x;
+                const yVal = Array.isArray(y) ? y[1] : y;
+                keyframes += `from { transform: translate(0, 0); } to { transform: translate(${xVal}px, ${yVal}px); }`;
+            }
+
+            if (currentAnimation.rotate) {
+                const rotate = Array.isArray(currentAnimation.rotate) 
+                    ? currentAnimation.rotate[1] 
+                    : currentAnimation.rotate;
+                keyframes += `from { transform: rotate(0deg); } to { transform: rotate(${rotate}deg); }`;
+            }
+
+            keyframes += '}';
+
+            // Inject styles
+            const styleId = 'dynamicAnimation';
+            let style = document.getElementById(styleId);
+            if (!style) {
+                style = document.createElement('style');
+                style.id = styleId;
+                document.head.appendChild(style);
+            }
+            style.textContent = keyframes;
+
+            // Apply animation
+            box.style.animation = `customAnim ${duration}ms ${easing} ${delay}ms infinite alternate`;
+        }
+
+        function replay() {
+            if (!currentAnimation) return;
+            animateBox();
+        }
+
+        function copyJSON() {
+            if (!currentAnimation) return;
+            const json = JSON.stringify(currentAnimation, null, 2);
+            navigator.clipboard.writeText(json).then(() => {
+                showSuccess('✅ JSON copied to clipboard!');
+            });
+        }
+
+        function downloadJSON() {
+            if (!currentAnimation) return;
+            const json = JSON.stringify(currentAnimation, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentKey}.json`;
+            a.click();
+            showSuccess('💾 JSON downloaded!');
+        }
+
+        function showSuccess(message) {
+            const container = document.getElementById('jsonContainer');
+            container.innerHTML = `<div class="success">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 3000);
+        }
+
+        // Search
+        document.getElementById('search').addEventListener('input', (e) => {
+            renderAnimationList(e.target.value);
+        });
+    </script>
+</body>
+</html>
+

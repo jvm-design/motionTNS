@@ -1,0 +1,36 @@
+{
+  "name": "@motionautoya/react-native-animations",
+  "version": "2.0.0",
+  "description": "React Native animation player using Motion Autoya animation library",
+  "main": "src/react-native/AnimationPlayer.tsx",
+  "files": [
+    "src/react-native/",
+    "animation-library.json",
+    "REACT_NATIVE_GUIDE.md"
+  ],
+  "keywords": [
+    "react-native",
+    "animation",
+    "reanimated",
+    "spring",
+    "motion",
+    "apple"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.70.0",
+    "react-native-reanimated": ">=3.0.0"
+  },
+  "scripts": {
+    "setup": "node setup-react-native.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/motion-autoya"
+  },
+  "author": "Motion Autoya Team",
+  "license": "MIT"
+}
+
+
+

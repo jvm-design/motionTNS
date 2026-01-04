@@ -1,0 +1,230 @@
+{
+  "name": "Motion Studio Camera Sync Success Animation",
+  "version": "1.0.0",
+  "fps": 60,
+  "totalFrames": 42,
+  "duration": 700,
+  "syncPoint": {
+    "frame": 18,
+    "time": 300,
+    "description": "Camera shutter sound ends - shapes fully merged"
+  },
+  "viewBox": {
+    "width": 59,
+    "height": 61,
+    "centerX": 29.27,
+    "centerY": 30.5,
+    "aspectRatio": "~1:1.03",
+    "notes": "SVG scales proportionally to any size while maintaining aspect ratio"
+  },
+  "sizing": {
+    "scalable": true,
+    "maintainsAspectRatio": true,
+    "useCase": "Centered camera overlay (not full-screen)",
+    "recommendedSizes": {
+      "cameraOverlay": "140-180px (optimal for camera confirmation)",
+      "default": "160px",
+      "mobileCamera": "140-180px",
+      "tabletCamera": "200-280px",
+      "minimum": "100px",
+      "maximum": "220px (avoid larger for camera use)"
+    },
+    "percentageOfScreen": "~38-40% of screen width",
+    "notes": "Size parameter controls container dimensions. Optimized for centered camera overlay - visible but not blocking. All SVG paths, animations, and timing scale proportionally. Timing (700ms) remains constant regardless of size."
+  },
+  "shapes": [
+    {
+      "id": "center",
+      "type": "circle",
+      "path": "M34.4872 30.4998C34.4872 33.3129 32.1518 35.5933 29.271 35.5933C26.3901 35.5933 24.0547 33.3129 24.0547 30.4998C24.0547 27.6867 26.3901 25.4062 29.271 25.4062C32.1518 25.4062 34.4872 27.6867 34.4872 30.4998Z",
+      "originalPosition": { "x": 29.27, "y": 30.5 },
+      "radius": 5.2,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "corner_bottom_left",
+      "type": "custom",
+      "path": "M17.2428 37.8027C15.7591 37.8027 14.4272 38.4528 13.5164 39.4836C11.9353 41.2731 12.4855 44.2912 10.6796 45.8536C9.05501 47.2591 6.39239 46.85 4.63276 48.0823C3.31296 49.0065 2.45312 50.5173 2.45312 52.2242C2.45312 55.0373 4.78853 57.3178 7.6694 57.3178C9.41782 57.3178 10.9653 56.4778 11.9118 55.1886C13.1585 53.4903 12.8083 50.9201 14.2213 49.3575C15.7749 47.6395 18.6869 48.0651 20.4542 46.5679C21.5304 45.6561 22.2136 44.2946 22.2136 42.7735C22.2136 40.0282 19.9881 37.8027 17.2428 37.8027Z",
+      "originalPosition": { "x": 17.24, "y": 37.80 },
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "circle_left",
+      "type": "circle",
+      "path": "M10.4326 30.4998C10.4326 33.3129 8.09715 35.5933 5.21628 35.5933C2.33541 35.5933 0 33.3129 0 30.4998C0 27.6867 2.33541 25.4062 5.21628 25.4062C8.09715 25.4062 10.4326 27.6867 10.4326 30.4998Z",
+      "originalPosition": { "x": 5.22, "y": 30.5 },
+      "radius": 5.2,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "corner_top_left",
+      "type": "custom",
+      "path": "M17.2448 23.0736C15.7611 23.0736 14.4292 22.4236 13.5184 21.3927C11.9372 19.6032 12.4875 16.5852 10.6816 15.0228C9.05697 13.6173 6.39435 14.0263 4.63471 12.7941C3.31491 11.8698 2.45508 10.359 2.45508 8.65214C2.45508 5.83905 4.79049 3.55859 7.67136 3.55859C9.41977 3.55859 10.9673 4.39856 11.9137 5.68779C13.1605 7.38603 12.8103 9.95629 14.2233 11.5189C15.7769 13.2369 18.6888 12.8112 20.4561 14.3084C21.5324 15.2203 22.2156 16.5817 22.2156 18.1028C22.2156 20.8481 19.9901 23.0736 17.2448 23.0736Z",
+      "originalPosition": { "x": 17.24, "y": 23.07 },
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "circle_top",
+      "type": "circle",
+      "path": "M34.4892 5.09354C34.4892 7.90663 32.1538 10.1871 29.2729 10.1871C26.392 10.1871 24.0566 7.90663 24.0566 5.09354C24.0566 2.28046 26.392 0 29.2729 0C32.1538 0 34.4892 2.28046 34.4892 5.09354Z",
+      "originalPosition": { "x": 29.27, "y": 5.09 },
+      "radius": 5.2,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "corner_top_right",
+      "type": "custom",
+      "path": "M41.2989 23.0736C42.7826 23.0736 44.1145 22.4236 45.0253 21.3927C46.6064 19.6032 46.0562 16.5852 47.8621 15.0228C49.4867 13.6173 52.1493 14.0263 53.909 12.7941C55.2288 11.8698 56.0886 10.359 56.0886 8.65214C56.0886 5.83905 53.7532 3.55859 50.8723 3.55859C49.1239 3.55859 47.5764 4.39856 46.63 5.68779C45.3832 7.38603 45.7334 9.95629 44.3204 11.5189C42.7668 13.2369 39.8549 12.8112 38.0876 14.3084C37.0113 15.2203 36.3281 16.5817 36.3281 18.1028C36.3281 20.8481 38.5536 23.0736 41.2989 23.0736Z",
+      "originalPosition": { "x": 41.30, "y": 23.07 },
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "circle_right",
+      "type": "circle",
+      "path": "M58.5439 30.4998C58.5439 33.3129 56.2085 35.5933 53.3276 35.5933C50.4467 35.5933 48.1113 33.3129 48.1113 30.4998C48.1113 27.6867 50.4467 25.4062 53.3276 25.4062C56.2085 25.4062 58.5439 27.6867 58.5439 30.4998Z",
+      "originalPosition": { "x": 53.33, "y": 30.5 },
+      "radius": 5.2,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "corner_bottom_right",
+      "type": "custom",
+      "path": "M41.2989 37.8027C42.7826 37.8027 44.1145 38.4528 45.0253 39.4836C46.6064 41.2731 46.0562 44.2912 47.8621 45.8536C49.4867 47.2591 52.1493 46.85 53.909 48.0823C55.2288 49.0065 56.0886 50.5173 56.0886 52.2242C56.0886 55.0373 53.7532 57.3178 50.8723 57.3178C49.1239 57.3178 47.5764 56.4778 46.63 55.1886C45.3832 53.4903 45.7334 50.9201 44.3204 49.3575C42.7668 47.6395 39.8549 48.0651 38.0876 46.5679C37.0113 45.6561 36.3281 44.2946 36.3281 42.7735C36.3281 40.0282 38.5536 37.8027 41.2989 37.8027Z",
+      "originalPosition": { "x": 41.30, "y": 37.80 },
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "circle_bottom",
+      "type": "circle",
+      "path": "M34.4892 55.906C34.4892 58.7191 32.1538 60.9996 29.2729 60.9996C26.392 60.9996 24.0566 58.7191 24.0566 55.906C24.0566 53.093 26.392 50.8125 29.2729 50.8125C32.1538 50.8125 34.4892 53.093 34.4892 55.906Z",
+      "originalPosition": { "x": 29.27, "y": 55.91 },
+      "radius": 5.2,
+      "fill": "#FFFFFF"
+    }
+  ],
+  "timeline": [
+    {
+      "frameRange": [0, 11],
+      "timeRange": [0, 183],
+      "stage": "recognition",
+      "description": "Logo visible, no motion - PRIMARY cognitive recognition time (LONGER than checkmark)",
+      "cognitiveRole": "User processes 'what happened' - photo was taken (PRIMARY signal)"
+    },
+    {
+      "frameRange": [11, 18],
+      "timeRange": [183, 300],
+      "stage": "convergence",
+      "description": "All 8 outer shapes converge to center circle - super fast responsive action",
+      "animation": {
+        "stagger": 0.02,
+        "easing": "cameraSpring",
+        "scaleStart": 0.55,
+        "opacityFade": 0.75,
+        "filter": {
+          "active": "frame 16-18 only",
+          "blur": "1.4px",
+          "type": "shutterBlend"
+        }
+      }
+    },
+    {
+      "frameRange": [18, 21],
+      "timeRange": [300, 350],
+      "stage": "beat",
+      "description": "White circle holds (micro-pause for clarity)"
+    },
+    {
+      "frameRange": [21, 32],
+      "timeRange": [350, 533],
+      "stage": "green",
+      "description": "White circle transforms to green with pulse - success signal",
+      "cognitiveRole": "User processes 'saved successfully'",
+      "animation": {
+        "colorTransition": {
+          "from": "#FFFFFF",
+          "to": {
+            "gradient": {
+              "type": "radial",
+              "cx": "38%",
+              "cy": "38%",
+              "stops": [
+                { "offset": "0%", "color": "#86EFAC" },
+                { "offset": "45%", "color": "#34D399" },
+                { "offset": "100%", "color": "#059669" }
+              ]
+            }
+          }
+        },
+        "pulse": {
+          "maxScale": 1.10,
+          "peakAt": 0.35,
+          "easing": "ease-in-out"
+        }
+      }
+    },
+    {
+      "frameRange": [32, 42],
+      "timeRange": [533, 700],
+      "stage": "checkmark",
+      "description": "Checkmark draws on green circle - SECONDARY confirmation (167ms, shorter than logo)",
+      "cognitiveRole": "User processes 'confirmed and complete' - SECONDARY confirmation signal",
+      "animation": {
+        "path": "M 26.5 30.5 L 28.5 32.8 L 32 28.5",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.8,
+        "strokeLinecap": "round",
+        "strokeLinejoin": "round",
+        "drawFrom": 0,
+        "drawTo": 100,
+        "easing": "ease-out-quad"
+      }
+    }
+  ],
+  "cognitiveBalance": {
+    "principle": "INVERTED: Logo gets more recognition time as primary signal",
+    "logoRecognitionTime": "183ms (frames 0-11) - PRIMARY recognition",
+    "checkmarkConfirmationTime": "167ms (frames 32-42) - SECONDARY confirmation",
+    "balanceRatio": "1.1:1 (logo slightly longer - inverted)",
+    "notes": "Apple principle inverted: Logo (primary 'what happened') gets MORE time than checkmark (secondary confirmation)"
+  },
+  "easingFunctions": {
+    "cameraSpring": {
+      "description": "Fast responsive spring for camera sync (1.5% overshoot)",
+      "formula": "smoothstep + sin(t * π) * 0.015 * (1 - t)",
+      "bezier": "cubic-bezier(0.22, 0.61, 0.36, 1.0)"
+    },
+    "ease-out-quad": {
+      "description": "Decisive checkmark drawing",
+      "formula": "1 - (1 - t)²",
+      "bezier": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    }
+  },
+  "implementation": {
+    "flutter": {
+      "package": "flutter_svg",
+      "animationController": {
+        "duration": "Duration(milliseconds: 700)",
+        "vsync": "required"
+      },
+      "cameraSync": {
+        "shutterSoundDuration": 300,
+        "syncFrame": 18,
+        "triggerAnimation": "on camera.takePicture()"
+      }
+    },
+    "reactNative": {
+      "package": "react-native-svg",
+      "package2": "react-native-reanimated",
+      "duration": 700
+    },
+    "iOS": {
+      "coreAnimation": true,
+      "duration": 0.7
+    },
+    "android": {
+      "animatedVectorDrawable": true,
+      "duration": 700
+    }
+  }
+}
+

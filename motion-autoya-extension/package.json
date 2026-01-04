@@ -1,0 +1,169 @@
+{
+  "name": "motion-autoya-extension",
+  "displayName": "Motion Autoya - Animation Library & Validator",
+  "description": "Browse, preview, and validate Motion Autoya animations with 569+ presets",
+  "version": "1.0.0",
+  "publisher": "motion-autoya",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.105.0"
+  },
+  "categories": [
+    "Visualization",
+    "Snippets",
+    "Linters"
+  ],
+  "keywords": [
+    "animation",
+    "motion",
+    "lottie",
+    "framer-motion",
+    "react"
+  ],
+  "activationEvents": [
+    "onView:motionAutoyaExplorer",
+    "onLanguage:json",
+    "onCommand:motionAutoya.refreshLibrary"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "motionAutoya",
+          "title": "Motion Autoya",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "motionAutoya": [
+        {
+          "id": "motionAutoyaExplorer",
+          "name": "Animation Library",
+          "icon": "resources/icon.svg",
+          "contextualTitle": "Motion Autoya Animations"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "motionAutoya.refreshLibrary",
+        "title": "Refresh Animation Library",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "motionAutoya.previewAnimation",
+        "title": "Preview Animation",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "motionAutoya.insertCode",
+        "title": "Insert Animation Code",
+        "icon": "$(code)"
+      },
+      {
+        "command": "motionAutoya.copyJSON",
+        "title": "Copy Animation JSON",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "motionAutoya.searchAnimations",
+        "title": "Search Animations",
+        "icon": "$(search)"
+      },
+      {
+        "command": "motionAutoya.validateJSON",
+        "title": "Validate Animation JSON",
+        "icon": "$(check)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "motionAutoya.refreshLibrary",
+          "when": "view == motionAutoyaExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "motionAutoya.searchAnimations",
+          "when": "view == motionAutoyaExplorer",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "motionAutoya.previewAnimation",
+          "when": "view == motionAutoyaExplorer && viewItem == animation",
+          "group": "inline"
+        },
+        {
+          "command": "motionAutoya.insertCode",
+          "when": "view == motionAutoyaExplorer && viewItem == animation",
+          "group": "1_actions"
+        },
+        {
+          "command": "motionAutoya.copyJSON",
+          "when": "view == motionAutoyaExplorer && viewItem == animation",
+          "group": "1_actions"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "motionAutoya.validateJSON",
+          "when": "resourceExtname == .json",
+          "group": "navigation"
+        }
+      ]
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "*animation*.json",
+        "url": "./schemas/animation-schema.json"
+      },
+      {
+        "fileMatch": "*motion*.json",
+        "url": "./schemas/animation-schema.json"
+      },
+      {
+        "fileMatch": "*preset*.json",
+        "url": "./schemas/animation-schema.json"
+      }
+    ],
+    "configuration": {
+      "title": "Motion Autoya",
+      "properties": {
+        "motionAutoya.libraryPath": {
+          "type": "string",
+          "default": "animation-presets.json",
+          "description": "Path to animation library JSON file"
+        },
+        "motionAutoya.autoValidate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically validate animation JSON files"
+        },
+        "motionAutoya.previewOnHover": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show animation preview on hover"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "install-extension": "code --install-extension motion-autoya-extension-1.0.0.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.27",
+    "@types/vscode": "^1.105.0",
+    "@vscode/vsce": "^2.32.0",
+    "typescript": "^5.9.3"
+  },
+  "author": "",
+  "license": "ISC"
+}

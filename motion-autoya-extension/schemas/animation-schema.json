@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Motion Autoya Animation Schema",
+  "description": "Schema for Motion Autoya animation presets and configurations",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9_\\-\\.]+$": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "number",
+          "description": "Animation duration in milliseconds",
+          "minimum": 0,
+          "default": 300
+        },
+        "delay": {
+          "type": "number",
+          "description": "Animation delay in milliseconds",
+          "minimum": 0,
+          "default": 0
+        },
+        "easing": {
+          "type": "string",
+          "description": "Easing function for the animation",
+          "enum": [
+            "linear",
+            "ease",
+            "ease-in",
+            "ease-out",
+            "ease-in-out",
+            "spring",
+            "bounce",
+            "elastic"
+          ],
+          "default": "ease-out"
+        },
+        "type": {
+          "type": "string",
+          "description": "Animation type",
+          "enum": [
+            "tween",
+            "spring",
+            "inertia",
+            "keyframes"
+          ]
+        },
+        "spring": {
+          "type": "object",
+          "description": "Spring physics configuration",
+          "properties": {
+            "stiffness": {
+              "type": "number",
+              "description": "Spring stiffness",
+              "minimum": 0,
+              "default": 380
+            },
+            "damping": {
+              "type": "number",
+              "description": "Spring damping",
+              "minimum": 0,
+              "default": 30
+            },
+            "mass": {
+              "type": "number",
+              "description": "Spring mass",
+              "minimum": 0,
+              "default": 1
+            },
+            "velocity": {
+              "type": "number",
+              "description": "Initial velocity",
+              "default": 0
+            }
+          }
+        },
+        "opacity": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "Opacity animation values"
+        },
+        "scale": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "Scale animation values"
+        },
+        "x": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "array", "items": { "type": ["number", "string"] } }
+          ],
+          "description": "X-axis translation"
+        },
+        "y": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "array", "items": { "type": ["number", "string"] } }
+          ],
+          "description": "Y-axis translation"
+        },
+        "rotate": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "string" },
+            { "type": "array", "items": { "type": ["number", "string"] } }
+          ],
+          "description": "Rotation animation"
+        },
+        "rotateX": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "X-axis rotation"
+        },
+        "rotateY": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "Y-axis rotation"
+        },
+        "skewX": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "X-axis skew"
+        },
+        "skewY": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "Y-axis skew"
+        },
+        "pathLength": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "SVG path length animation"
+        },
+        "pathOffset": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "array", "items": { "type": "number" } }
+          ],
+          "description": "SVG path offset animation"
+        },
+        "fill": {
+          "type": "string",
+          "description": "Fill color animation"
+        },
+        "stroke": {
+          "type": "string",
+          "description": "Stroke color animation"
+        },
+        "repeat": {
+          "type": ["number", "string"],
+          "description": "Number of times to repeat (or 'Infinity')"
+        },
+        "repeatType": {
+          "type": "string",
+          "enum": ["loop", "reverse", "mirror"],
+          "description": "Repeat behavior"
+        },
+        "transition": {
+          "type": "object",
+          "description": "Transition configuration"
+        },
+        "variants": {
+          "type": "object",
+          "description": "Animation variants"
+        },
+        "initial": {
+          "description": "Initial animation state"
+        },
+        "animate": {
+          "description": "Target animation state"
+        },
+        "exit": {
+          "description": "Exit animation state"
+        }
+      }
+    }
+  }
+}
+
+
+

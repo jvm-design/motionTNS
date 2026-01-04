@@ -1,0 +1,401 @@
+{
+  "name": "Autoya Logo Success Animation",
+  "version": "1.0.0",
+  "generatedBy": "Motion Autoya Export Script",
+  "exportDate": "2025-12-30T21:11:33.111Z",
+  "animation": {
+    "duration": 1.5,
+    "fps": 60,
+    "totalFrames": 90,
+    "loop": false,
+    "autoplay": false
+  },
+  "timing": {
+    "logoRecognition": {
+      "start": 0,
+      "end": 0.4
+    },
+    "convergence": {
+      "start": 0.4,
+      "end": 0.75
+    },
+    "beatPause": {
+      "start": 0.75,
+      "end": 0.8
+    },
+    "greenTransform": {
+      "start": 0.8,
+      "end": 1.15
+    },
+    "checkmark": {
+      "start": 1.15,
+      "end": 1.5
+    }
+  },
+  "frames": {
+    "logoRecognition": {
+      "start": 0,
+      "end": 24
+    },
+    "convergence": {
+      "start": 24,
+      "end": 45
+    },
+    "beatPause": {
+      "start": 45,
+      "end": 48
+    },
+    "greenTransform": {
+      "start": 48,
+      "end": 69
+    },
+    "checkmark": {
+      "start": 69,
+      "end": 90
+    }
+  },
+  "principles": {
+    "appleMotion": true,
+    "clarity": "Every stage is visible and understandable",
+    "deference": "Motion guides attention smoothly",
+    "continuity": "Smooth, followable transitions",
+    "premium": "Quality timing matches Apple Pay success (1.5s)",
+    "responsive": "Fast enough to feel responsive",
+    "delightful": "Users can appreciate the craftsmanship"
+  },
+  "phases": [
+    {
+      "name": "Logo Recognition",
+      "startFrame": 0,
+      "endFrame": 24,
+      "startTime": 0,
+      "endTime": 0.4,
+      "duration": 0.4,
+      "description": "Initial logo visibility - generous recognition time",
+      "easing": "linear"
+    },
+    {
+      "name": "Convergence",
+      "startFrame": 24,
+      "endFrame": 45,
+      "startTime": 0.4,
+      "endTime": 0.75,
+      "duration": 0.35,
+      "description": "Liquid motion - shapes converge to center with spring physics",
+      "easing": "camera-spring",
+      "easingFunction": "smoothstep with overshoot",
+      "easingParams": {
+        "type": "spring",
+        "overshoot": 0.015,
+        "stagger": 0.02,
+        "description": "Fast responsive start, smooth confident settle"
+      },
+      "bezier": null
+    },
+    {
+      "name": "Beat Pause",
+      "startFrame": 45,
+      "endFrame": 48,
+      "startTime": 0.75,
+      "endTime": 0.8,
+      "duration": 0.05,
+      "description": "Appreciation moment - brief pause before transformation",
+      "easing": "linear"
+    },
+    {
+      "name": "Green Transform",
+      "startFrame": 48,
+      "endFrame": 69,
+      "startTime": 0.8,
+      "endTime": 1.15,
+      "duration": 0.35,
+      "description": "Success color transformation with confident pulse",
+      "easing": "ease-out",
+      "transform": {
+        "scale": {
+          "keyframes": [
+            {
+              "progress": 0,
+              "value": 1,
+              "description": "Start at normal size"
+            },
+            {
+              "progress": 0.35,
+              "value": 1.1,
+              "description": "Quick grow to 110%"
+            },
+            {
+              "progress": 1,
+              "value": 1,
+              "description": "Smooth settle back"
+            }
+          ]
+        },
+        "opacity": {
+          "fadeIn": {
+            "threshold": 0.08,
+            "rate": 12.5
+          }
+        }
+      }
+    },
+    {
+      "name": "Checkmark Draw",
+      "startFrame": 69,
+      "endFrame": 90,
+      "startTime": 1.15,
+      "endTime": 1.5,
+      "duration": 0.35,
+      "description": "Confident checkmark stroke drawing",
+      "easing": "ease-out-quad",
+      "easingFunction": "1 - (1 - t) * (1 - t)",
+      "bezier": [
+        0.25,
+        0.46,
+        0.45,
+        0.94
+      ],
+      "strokeAnimation": {
+        "dasharray": 15,
+        "dashoffset": {
+          "from": 15,
+          "to": 0
+        }
+      }
+    }
+  ],
+  "elements": {
+    "logo": {
+      "type": "group",
+      "elementCount": 9,
+      "description": "8 surrounding shapes + 1 center dot",
+      "centerPoint": {
+        "x": 29.27,
+        "y": 30.5
+      },
+      "shapes": [
+        {
+          "id": 0,
+          "x": 17.24,
+          "y": 37.8,
+          "type": "organic-blob"
+        },
+        {
+          "id": 1,
+          "x": 5.22,
+          "y": 30.5,
+          "type": "circle"
+        },
+        {
+          "id": 2,
+          "x": 17.24,
+          "y": 23.07,
+          "type": "organic-blob"
+        },
+        {
+          "id": 3,
+          "x": 29.27,
+          "y": 5.09,
+          "type": "circle"
+        },
+        {
+          "id": 4,
+          "x": 41.3,
+          "y": 23.07,
+          "type": "organic-blob"
+        },
+        {
+          "id": 5,
+          "x": 53.33,
+          "y": 30.5,
+          "type": "circle"
+        },
+        {
+          "id": 6,
+          "x": 41.3,
+          "y": 37.8,
+          "type": "organic-blob"
+        },
+        {
+          "id": 7,
+          "x": 29.27,
+          "y": 55.91,
+          "type": "circle"
+        },
+        {
+          "id": 8,
+          "x": 29.27,
+          "y": 30.5,
+          "type": "circle-center"
+        }
+      ],
+      "convergencePhysics": {
+        "targetCenter": {
+          "x": 29.27,
+          "y": 30.5
+        },
+        "stagger": 0.02,
+        "scaleCollapse": {
+          "from": 1,
+          "to": 0.07,
+          "threshold": 0.55
+        },
+        "fadeOut": {
+          "threshold": 0.75,
+          "duration": 0.25
+        }
+      }
+    },
+    "successCircle": {
+      "type": "circle",
+      "center": {
+        "x": 29.27,
+        "y": 30.5
+      },
+      "radius": 5.2,
+      "fill": "radial-gradient",
+      "gradient": {
+        "type": "radial",
+        "center": {
+          "cx": "38%",
+          "cy": "38%"
+        },
+        "radius": "62%",
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#86EFAC",
+            "opacity": 1,
+            "name": "green-300"
+          },
+          {
+            "offset": 0.45,
+            "color": "#34D399",
+            "opacity": 1,
+            "name": "green-400"
+          },
+          {
+            "offset": 1,
+            "color": "#059669",
+            "opacity": 1,
+            "name": "green-600"
+          }
+        ]
+      },
+      "glassHighlight": {
+        "type": "radial-gradient",
+        "center": {
+          "cx": "32%",
+          "cy": "32%"
+        },
+        "radius": "48%",
+        "stops": [
+          {
+            "offset": 0,
+            "color": "white",
+            "opacity": 0.45
+          },
+          {
+            "offset": 0.7,
+            "color": "white",
+            "opacity": 0.12
+          },
+          {
+            "offset": 1,
+            "color": "white",
+            "opacity": 0
+          }
+        ],
+        "description": "Crisp glass highlight - Apple's signature shine"
+      }
+    },
+    "checkmark": {
+      "type": "path",
+      "pathData": "M 26.5 30.5 L 28.5 32.8 L 32 28.5",
+      "stroke": "white",
+      "strokeWidth": 1.8,
+      "strokeLinecap": "round",
+      "strokeLinejoin": "round",
+      "fill": "none",
+      "animation": {
+        "type": "stroke-draw",
+        "dasharray": 15,
+        "dashoffset": {
+          "from": 15,
+          "to": 0
+        },
+        "easing": "ease-out-quad"
+      }
+    }
+  },
+  "synchronization": {
+    "enabled": true,
+    "description": "Animation synced with iOS camera shutter sound",
+    "syncPoint": {
+      "frame": 18,
+      "time": 0.3,
+      "event": "shutter-sound-end",
+      "description": "Convergence completes as shutter sound ends"
+    },
+    "hapticFeedback": {
+      "trigger": "onStart",
+      "time": 0,
+      "type": "impact-medium",
+      "description": "Haptic fires when user presses shutter button"
+    },
+    "audioSync": {
+      "shutterSound": {
+        "start": 0,
+        "end": 0.3,
+        "description": "iOS camera shutter sound duration"
+      },
+      "convergenceCompletes": 0.3,
+      "visualConfirmation": 0.8
+    }
+  },
+  "implementation": {
+    "web": {
+      "libraries": [
+        "react",
+        "framer-motion",
+        "gsap"
+      ],
+      "viewport": {
+        "width": 59,
+        "height": 61
+      },
+      "background": "transparent",
+      "format": "SVG"
+    },
+    "ios": {
+      "framework": "SwiftUI",
+      "animation": "withAnimation(.spring(response: 0.35, dampingFraction: 0.85))",
+      "haptics": "UIImpactFeedbackGenerator(style: .medium)"
+    },
+    "android": {
+      "framework": "Jetpack Compose",
+      "animation": "animateFloatAsState(tween(durationMillis: 350, easing: FastOutSlowInEasing))",
+      "haptics": "HapticFeedbackConstants.CONTEXT_CLICK"
+    },
+    "flutter": {
+      "framework": "Flutter",
+      "animation": "AnimationController(duration: Duration(milliseconds: 1500), vsync: this)",
+      "curve": "Curves.easeOutQuad"
+    }
+  },
+  "export": {
+    "formats": [
+      "svg",
+      "json",
+      "lottie",
+      "mp4",
+      "webm"
+    ],
+    "compatibility": {
+      "ios": "iOS 13+",
+      "android": "Android 5.0+",
+      "web": "All modern browsers",
+      "flutter": "Flutter 2.0+"
+    }
+  }
+}
