@@ -11,7 +11,9 @@
     "export:presets": "node export-animation-presets.js",
     "export:presets:file": "node export-animation-presets.js > animation-presets-export.json",
     "export:animations": "node export-animations-simple.js",
-    "export:all": "node export-animations-simple.js && echo '✅ Animation library exported!'"
+    "export:all": "node export-animations-simple.js && echo '✅ Animation library exported!'",
+    "remotion": "remotion studio src/remotion/index.ts",
+    "remotion:render": "remotion render src/remotion/index.ts LogoReveal out/logo-reveal.mp4"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
