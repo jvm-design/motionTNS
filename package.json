@@ -18,13 +18,15 @@
     "@ffmpeg/util": "^0.12.2",
     "@lottiefiles/lottie-player": "^2.0.12",
     "@react-spring/web": "^9.7.3",
+    "@remotion/cli": "^4.0.457",
     "framer-motion": "^11.0.3",
     "gsap": "^3.12.5",
     "jszip": "^3.10.1",
     "lottie-react": "^2.4.0",
     "lottie-web": "^5.13.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.457"
   },
   "devDependencies": {
     "@types/react": "^18.3.1",
