@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Car Overlay — Lottie demo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: #111; font-family: "Inter", system-ui, sans-serif; color: #fff; }
+  .stage { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+  /* 16:9 frame, centered */
+  .frame {
+    position: absolute; inset: 0; margin: auto;
+    aspect-ratio: 16/9; width: 100%; height: auto;
+    max-width: 100vw; max-height: 100vh;
+    background: #000;
+    overflow: hidden;
+  }
+  .frame > video, .frame > img.bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* The Lottie player sits ON TOP, transparent background */
+  .frame > #lottie {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .panel {
+    position: fixed; top: 8px; left: 8px; z-index: 50;
+    background: rgba(0,0,0,.7); color: #fff;
+    border-radius: 8px; padding: 8px 10px;
+    font: 12px/1.4 ui-monospace, monospace;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .panel button {
+    background: #fff; color: #111; border: 0; border-radius: 4px;
+    padding: 5px 10px; cursor: pointer; font-weight: 600;
+  }
+  .panel input[type="file"] { color: #fff; max-width: 200px; }
+  .panel .sep { width: 1px; height: 18px; background: #444; }
+  .panel small { opacity: .65; }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <button id="play">▶ Replay</button>
+  <label>Source: <input id="src" type="file" accept="video/*,image/gif,image/*"></label>
+  <span class="sep"></span>
+  <small>Le Lottie est superposé sur la vidéo. Modifiez <code>car-overlay.lottie.json</code> ou régénérez via <code>node export-car-overlay-lottie.js</code>.</small>
+</div>
+
+<div class="stage">
+  <div class="frame" id="frame">
+    <!-- Source visuelle (vidéo ou GIF) - en arrière-plan -->
+    <video id="bg" autoplay muted loop playsinline></video>
+    <img class="bg" id="bgImg" alt="" style="display:none">
+
+    <!-- Player Lottie - par-dessus -->
+    <div id="lottie"></div>
+  </div>
+</div>
+
+<!-- lottie-web (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script>
+const LOTTIE_PATH = './car-overlay.lottie.json';
+
+let anim = null;
+
+function loadLottie() {
+  if (anim) anim.destroy();
+  anim = lottie.loadAnimation({
+    container: document.getElementById('lottie'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: LOTTIE_PATH,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice', // matches video object-fit cover
+    },
+  });
+}
+
+function play() {
+  if (anim) { anim.goToAndPlay(0, true); }
+  const v = document.getElementById('bg');
+  if (v && v.src) { v.currentTime = 0; v.play().catch(()=>{}); }
+}
+
+document.getElementById('play').addEventListener('click', play);
+
+document.getElementById('src').addEventListener('change', (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const url = URL.createObjectURL(f);
+  const v   = document.getElementById('bg');
+  const img = document.getElementById('bgImg');
+  if (f.type.startsWith('video/')) {
+    img.style.display = 'none';
+    v.style.display = '';
+    v.src = url; v.play().catch(()=>{});
+  } else {
+    v.style.display = 'none';
+    v.removeAttribute('src');
+    img.style.display = '';
+    img.src = url;
+  }
+  play();
+});
+
+loadLottie();
+</script>
+</body>
+</html>
