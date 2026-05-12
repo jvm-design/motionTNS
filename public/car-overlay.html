@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Car Overlay Template</title>
+<style>
+  /* =======================================================================
+     PARAMÈTRES — modifiez ces variables pour réutiliser le template
+     ======================================================================= */
+  :root {
+    /* Identité visuelle */
+    --brand: #1FAACB;          /* bleu du bandeau et des icônes */
+    --brand-ink: #ffffff;
+    --card-bg: #ffffff;
+    --card-ink: #222;
+    --shadow: 0 6px 22px rgba(0,0,0,.18);
+    --radius: 999px;
+    --font: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+    /* Format de scène (16:9) */
+    --scene-w: 1920px;
+    --scene-h: 1080px;
+
+    /* Durées (s) */
+    --d-intro:    1.2;   /* pastille basse → bandeau haut */
+    --d-specs:    1.6;   /* fiche technique visible      */
+    --d-icon:     1.6;   /* durée de chaque tooltip d'icône */
+    --d-outro:    2.0;   /* slate finale                 */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: #111; font-family: var(--font); }
+
+  /* Scène 16:9, contenue dans la fenêtre */
+  .stage {
+    position: relative;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    background: #000;
+  }
+  .scene {
+    position: absolute; inset: 0;
+    /* on garde le 16:9 quoi qu'il arrive */
+    display: grid; place-items: center;
+  }
+  .frame {
+    position: relative;
+    aspect-ratio: 16/9;
+    width: 100%; height: auto;
+    max-width: 100vw; max-height: 100vh;
+    background: #f0f0f0;
+    overflow: hidden;
+  }
+  .frame > video, .frame > img.bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  /* ======== Bandeau titre (haut-gauche) ======== */
+  .title-banner {
+    position: absolute;
+    left: 0; top: 4.5%;
+    background: var(--brand); color: var(--brand-ink);
+    padding: 1.1em 1.6em 1.1em 2.4em;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-weight: 700; font-size: 1.6vw; letter-spacing: .2px;
+    box-shadow: var(--shadow);
+    transform: translateX(-110%);
+    animation: bannerIn .8s cubic-bezier(.2,.7,.2,1) .3s forwards;
+    white-space: nowrap;
+  }
+  .title-banner b { font-weight: 800; }
+  .title-banner .sep { opacity: .7; margin: 0 .35em; }
+
+  @keyframes bannerIn  { to { transform: translateX(0); } }
+  @keyframes bannerOut { to { transform: translateX(-110%); } }
+
+  /* ======== Pastille basse (intro) — pastille → bandeau ======== */
+  .intro-pill {
+    position: absolute;
+    left: 3%; bottom: 9%;
+    background: #fff; color: var(--card-ink);
+    border-radius: 999px;
+    padding: 1.1em 2em;
+    box-shadow: var(--shadow);
+    font-size: 1.4vw;
+    display: flex; align-items: center; gap: .8em;
+    transform: translateY(140%); opacity: 0;
+    animation: pillIn .6s cubic-bezier(.2,.7,.2,1) .2s forwards,
+               pillOut .5s ease-in 2.4s forwards;
+  }
+  .intro-pill .bar { width: 3px; height: 1.7em; background: var(--brand); border-radius: 3px; }
+  .intro-pill .model { font-weight: 800; font-size: 1.2em; }
+  .intro-pill .desc  { color: #666; }
+  @keyframes pillIn  { to { transform: translateY(0); opacity: 1; } }
+  @keyframes pillOut { to { transform: translateY(140%); opacity: 0; } }
+
+  /* ======== Fiche technique (4 lignes) ======== */
+  .specs {
+    position: absolute;
+    left: 2%; top: 22%;
+    width: 22%;
+    display: flex; flex-direction: column; gap: 1.1em;
+    color: var(--card-ink);
+    opacity: 0; transform: translateX(-10%);
+    animation: specsIn .5s ease-out 1.4s forwards,
+               specsOut .4s ease-in 4s forwards;
+  }
+  .spec {
+    display: grid; grid-template-columns: 2.6em 1fr; align-items: center; gap: .9em;
+  }
+  .spec .ic {
+    width: 2.6em; height: 2.6em; border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--brand);
+  }
+  .spec .ic svg { width: 60%; height: 60%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .spec .label { font-size: .85vw; color: #555; }
+  .spec .value { font-size: 1.1vw; font-weight: 800; letter-spacing: .3px; }
+  @keyframes specsIn  { to { opacity: 1; transform: translateX(0); } }
+  @keyframes specsOut { to { opacity: 0; transform: translateX(-6%); } }
+
+  /* ======== Barre verticale d'icônes + tooltips ======== */
+  .side-icons {
+    position: absolute;
+    left: 1.6%; top: 22%;
+    display: flex; flex-direction: column; gap: 1.4em;
+    opacity: 0; animation: fadeIn .4s ease-out 5s forwards;
+  }
+  .side-icons .row { display: flex; align-items: center; gap: 1em; }
+  .side-icons .ic {
+    width: 3em; height: 3em; border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--brand);
+    transition: background .25s ease, color .25s ease, transform .25s ease;
+  }
+  .side-icons .ic svg { width: 60%; height: 60%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .side-icons .row.active .ic { background: var(--brand); color: #fff; transform: scale(1.06); }
+
+  .tip {
+    background: #fff; color: var(--card-ink);
+    padding: .55em 1.1em; border-radius: 999px;
+    box-shadow: var(--shadow);
+    font-size: .95vw; font-weight: 600;
+    opacity: 0; transform: translateX(-12px);
+    transition: opacity .25s ease, transform .25s ease;
+    white-space: nowrap;
+  }
+  .row.active .tip { opacity: 1; transform: translateX(0); }
+
+  /* ======== Slate finale (panneau droit + checklist) ======== */
+  .end-slate {
+    position: absolute; inset: 0 0 0 65%;
+    background: #fff;
+    transform: translateX(110%);
+    animation: slateIn .6s cubic-bezier(.2,.7,.2,1) 12s forwards;
+    display: flex; flex-direction: column; justify-content: center; gap: 1.4em;
+    padding: 5%;
+    color: var(--card-ink);
+  }
+  .end-slate .row {
+    display: grid; grid-template-columns: 3em 1fr; align-items: center; gap: 1.1em;
+    font-size: 1.2vw; font-weight: 700;
+  }
+  .end-slate .ic { color: var(--brand); width: 3em; height: 3em; display: grid; place-items: center; }
+  .end-slate .ic svg { width: 70%; height: 70%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .end-slate .foot { font-size: .8vw; color: #666; margin-top: .5em; font-weight: 500; }
+  @keyframes slateIn { to { transform: translateX(0); } }
+
+  /* ======== Logo filigrane (toujours visible) ======== */
+  .watermark {
+    position: absolute; right: 2%; bottom: 4%;
+    background: #fff; border-radius: 6px; padding: .4em .7em;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1; font-weight: 800;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; align-items: center;
+    font-size: 1vw;
+  }
+  .watermark .a { color: #555; font-weight: 600; font-size: .85em; }
+  .watermark .b { color: var(--brand); font-size: 1.4em; }
+  .watermark .c { color: #555; font-weight: 600; font-size: .65em; }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ======== Réglage timing global : decay du bandeau titre ======== */
+  .title-banner.exit { animation: bannerOut .5s ease-in forwards; }
+
+  /* ======== Panneau de réglages (en haut, masquable) ======== */
+  .panel {
+    position: fixed; top: 8px; left: 8px; z-index: 50;
+    background: rgba(0,0,0,.65); color: #fff;
+    border-radius: 8px; padding: 8px 10px;
+    font: 12px/1.4 ui-monospace, monospace;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .panel button { background: #fff; color: #111; border: 0; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+  .panel input[type="file"] { color: #fff; width: 180px; }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <button id="play">▶ Rejouer</button>
+  <label>Source: <input id="src" type="file" accept="video/*,image/gif,image/*"></label>
+  <span id="hint">(par défaut : votre voiture)</span>
+</div>
+
+<div class="stage">
+  <div class="scene">
+    <div class="frame" id="frame">
+      <!-- Source visuelle (vidéo ou GIF). Remplaçable via le picker ci-dessus
+           ou en modifiant l'attribut src directement. -->
+      <video id="bg" autoplay muted loop playsinline
+             src=""
+             poster=""></video>
+      <img class="bg" id="bgImg" alt="" style="display:none">
+
+      <!-- ========== Bandeau titre ========== -->
+      <div class="title-banner" id="banner">
+        <b id="cfg-model">PEUGEOT 308</b>
+        <span class="sep">|</span>
+        <span id="cfg-version">Electrique 55 kWh 156ch - GT Exclusive</span>
+      </div>
+
+      <!-- ========== Pastille intro (basse) ========== -->
+      <div class="intro-pill" id="intro">
+        <span class="bar"></span>
+        <div>
+          <div class="model" id="cfg-model-2">PEUGEOT 308</div>
+          <div class="desc"  id="cfg-version-2">Electrique 55 kWh 156ch - GT Exclusive</div>
+        </div>
+      </div>
+
+      <!-- ========== Fiche technique ========== -->
+      <div class="specs" id="specs">
+        <!-- généré par JS d'après CONFIG.specs -->
+      </div>
+
+      <!-- ========== Icônes verticales avec tooltips ========== -->
+      <div class="side-icons" id="sideIcons">
+        <!-- généré par JS d'après CONFIG.features -->
+      </div>
+
+      <!-- ========== Slate finale ========== -->
+      <div class="end-slate" id="endSlate">
+        <!-- généré par JS d'après CONFIG.endPoints -->
+      </div>
+
+      <!-- ========== Filigrane ========== -->
+      <div class="watermark">
+        <span class="a" id="cfg-wm-a">ma</span>
+        <span class="b" id="cfg-wm-b">nouvelle voiture</span>
+        <span class="c" id="cfg-wm-c">.com</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIG — modifiez cet objet pour un autre véhicule
+   ========================================================================= */
+const CONFIG = {
+  model:    "PEUGEOT 308",
+  version:  "Electrique 55 kWh 156ch - GT Exclusive",
+  watermark: { a: "ma", b: "nouvelle voiture", c: ".com" },
+
+  // Cartes de la fiche technique (frame ~3s)
+  specs: [
+    { icon: "gauge",     label: "Kilométrage :",         value: "1 500" },
+    { icon: "calendar",  label: "Mise en circulation :", value: "30/10/2025" },
+    { icon: "gear",      label: "Transmission :",        value: "Automatique" },
+    { icon: "wrench",    label: "Puissance :",           value: "156 ch" },
+  ],
+
+  // Icônes verticales gauche (chacune s'active à tour de rôle avec sa tooltip)
+  features: [
+    { icon: "wheel",  label: "Jantes alliage 18\"" },
+    { icon: "shift",  label: "Climatisation automatique bi-zone" },
+    { icon: "gps",    label: "Navigation connectée" },
+    { icon: "lock",   label: "Direction assistée" },
+  ],
+
+  // Slate finale (panneau droit)
+  endPoints: [
+    { icon: "badge",     label: "Garantie" },
+    { icon: "calendar",  label: "Satisfait ou remboursé" },
+    { icon: "carcheck",  label: "Prête-à-partir" },
+    { icon: "clipboard", label: "Révisée" },
+  ],
+  endFootnote: "Plus de 3000 véhicules d'occasion en stock",
+};
+
+/* =========================================================================
+   ICONES (SVG inline, traits seuls — couleur via currentColor)
+   ========================================================================= */
+const ICONS = {
+  gauge:    `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>`,
+  calendar: `<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>`,
+  gear:     `<svg viewBox="0 0 24 24"><path d="M12 3v8M8 7h8M12 11v10M7 21h10"/></svg>`,
+  wrench:   `<svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 1 0 3 5.5l5 5a2 2 0 1 1-2.8 2.8l-5-5a4 4 0 0 1-5.5-3l3-3 2.3 2.3"/></svg>`,
+  wheel:    `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/></svg>`,
+  shift:    `<svg viewBox="0 0 24 24"><path d="M12 4v16M6 8l6-4 6 4M9 14h6"/></svg>`,
+  gps:      `<svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-7-7-12a7 7 0 1 1 14 0c0 5-7 12-7 12z"/></svg>`,
+  lock:     `<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 1 1 8 0v3"/></svg>`,
+  badge:    `<svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M8 13l-2 8 6-3 6 3-2-8"/></svg>`,
+  carcheck: `<svg viewBox="0 0 24 24"><path d="M3 14l2-5a3 3 0 0 1 3-2h8a3 3 0 0 1 3 2l2 5v4h-2a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3z"/><path d="M9 18l2 2 4-4"/></svg>`,
+  clipboard:`<svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12l2 2 4-4"/></svg>`,
+};
+
+/* =========================================================================
+   RENDU
+   ========================================================================= */
+function svg(name){ return ICONS[name] || ICONS.gauge; }
+
+function renderSpecs(){
+  const el = document.getElementById('specs');
+  el.innerHTML = CONFIG.specs.map(s => `
+    <div class="spec">
+      <div class="ic">${svg(s.icon)}</div>
+      <div>
+        <div class="label">${s.label}</div>
+        <div class="value">${s.value}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderFeatures(){
+  const el = document.getElementById('sideIcons');
+  el.innerHTML = CONFIG.features.map((f,i) => `
+    <div class="row" data-i="${i}">
+      <div class="ic">${svg(f.icon)}</div>
+      <div class="tip">${f.label}</div>
+    </div>`).join('');
+}
+
+function renderEnd(){
+  const el = document.getElementById('endSlate');
+  el.innerHTML =
+    CONFIG.endPoints.map(p => `
+      <div class="row">
+        <div class="ic">${svg(p.icon)}</div>
+        <div>${p.label}</div>
+      </div>`).join('') +
+    `<div class="foot">${CONFIG.endFootnote}</div>`;
+}
+
+function renderText(){
+  document.getElementById('cfg-model').textContent = CONFIG.model;
+  document.getElementById('cfg-version').textContent = CONFIG.version;
+  document.getElementById('cfg-model-2').textContent = CONFIG.model;
+  document.getElementById('cfg-version-2').textContent = CONFIG.version;
+  document.getElementById('cfg-wm-a').textContent = CONFIG.watermark.a;
+  document.getElementById('cfg-wm-b').textContent = CONFIG.watermark.b;
+  document.getElementById('cfg-wm-c').textContent = CONFIG.watermark.c;
+}
+
+/* =========================================================================
+   TIMELINE — séquencement des tooltips d'icônes
+   ========================================================================= */
+let timers = [];
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+function runTimeline(){
+  clearTimers();
+  const rows = document.querySelectorAll('.side-icons .row');
+  rows.forEach(r => r.classList.remove('active'));
+  // début de la barre d'icônes : 5s après le lancement
+  // chaque icône reste active 1.6s, avec 0.4s de chevauchement
+  const start = 5400;
+  const dur   = 1700;
+  rows.forEach((row, i) => {
+    timers.push(setTimeout(() => {
+      rows.forEach(r => r.classList.remove('active'));
+      row.classList.add('active');
+    }, start + i * dur));
+  });
+  // bandeau titre : sort à 11.5s
+  timers.push(setTimeout(() => {
+    document.getElementById('banner').classList.add('exit');
+  }, 11500));
+}
+
+function play(){
+  // reset animations
+  const banner = document.getElementById('banner');
+  banner.classList.remove('exit');
+  ['#banner','#intro','#specs','#sideIcons','#endSlate'].forEach(sel => {
+    const n = document.querySelector(sel);
+    const clone = n.cloneNode(true);
+    n.replaceWith(clone);
+  });
+  renderSpecs(); renderFeatures(); renderEnd(); renderText();
+  // relance la vidéo si présente
+  const v = document.getElementById('bg');
+  if (v && v.src) { v.currentTime = 0; v.play().catch(()=>{}); }
+  runTimeline();
+}
+
+/* =========================================================================
+   Source visuelle (vidéo / image GIF)
+   ========================================================================= */
+document.getElementById('src').addEventListener('change', (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const url = URL.createObjectURL(f);
+  const v = document.getElementById('bg');
+  const img = document.getElementById('bgImg');
+  if (f.type.startsWith('video/')) {
+    img.style.display = 'none';
+    v.style.display = '';
+    v.src = url; v.play().catch(()=>{});
+  } else {
+    v.style.display = 'none';
+    v.removeAttribute('src');
+    img.style.display = '';
+    img.src = url;
+  }
+  play();
+});
+
+document.getElementById('play').addEventListener('click', play);
+
+/* init */
+renderSpecs(); renderFeatures(); renderEnd(); renderText(); runTimeline();
+</script>
+</body>
+</html>
